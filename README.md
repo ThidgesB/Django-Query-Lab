@@ -1,1 +1,1 @@
-# Django-Query-Lab
+# querying-lab
