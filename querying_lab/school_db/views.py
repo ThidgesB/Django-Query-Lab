@@ -37,15 +37,27 @@ def problem_two(request): #Solved By Cole
     }
     return render(request, 'school/two.html', context)
 
-def problem_three(request):
+def problem_three(request): #solved by both of us, working on a better solution exclude() function WILL NOT WORK, idk why
     students_with_a_plus = StudentCourse.objects.filter(grade='A+')
-    students_without_c_plus = students_with_a_plus.exclude(grade='C+').order_by('student__first_name')
+    students_with_c_plus = StudentCourse.objects.filter(grade='C+')
+    empty_array_1 = []
+    empty_array_2 = []
+    for student in students_with_c_plus.iterator():
+        empty_array_1.append(student.student_id)
+    for student in students_with_a_plus.iterator():
+        empty_array_2.append(student.student_id)
+    empty_array_3 = [x for x in empty_array_2 if x not in empty_array_1]
+    
+    final_student_list = StudentCourse.objects.filter(student_id__in=empty_array_3, grade='A+')
+    # students_with_a_plus.exclude(student_id=empty_array)
+    # students_with_a_plus = StudentCourse.objects.filter(grade='A+')
+    # students_without_c_plus = students_with_a_plus.exclude(grade='C+').order_by('student__first_name')
     # Find all students who have a A+ in any class and are NOT getting a C+ in any class. 
     # Order the data by student's first name alphabetically.
-    data_visualization = [item for item in students_with_a_plus]
+    data_visualization = [item for item in final_student_list]
 
     context = {
-        'student_courses': students_without_c_plus
+        'student_courses': final_student_list
     }
     return render(request, 'school/three.html', context)
 
