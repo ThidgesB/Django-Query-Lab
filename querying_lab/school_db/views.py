@@ -48,7 +48,7 @@ def problem_three(request): #solved by both of us, working on a better solution 
         empty_array_2.append(student.student_id)
     empty_array_3 = [x for x in empty_array_2 if x not in empty_array_1]
     
-    final_student_list = StudentCourse.objects.filter(student_id__in=empty_array_3, grade='A+')
+    final_student_list = StudentCourse.objects.filter(student_id__in=empty_array_3, grade='A+').order_by('student__first_name')
     # students_with_a_plus.exclude(student_id=empty_array)
     # students_with_a_plus = StudentCourse.objects.filter(grade='A+')
     # students_without_c_plus = students_with_a_plus.exclude(grade='C+').order_by('student__first_name')
@@ -82,11 +82,12 @@ def problem_five(request): #Solved by both of us
     return render(request, 'school/five.html', context)
 
 def problem_six(request):
+    student_with_low_gpa = Student.objects.filter(gpa__lt=3.0)
     # Find all students with a GPA less than 3.0 who are getting an A in Programming class.
     # Order by GPA.
 
     context = {
-        'student_courses': None
+        'student_courses': student_with_low_gpa
     }
     return render(request, 'school/six.html', context)
 
