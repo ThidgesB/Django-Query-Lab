@@ -81,11 +81,11 @@ def problem_five(request): #Solved by both of us
     }
     return render(request, 'school/five.html', context)
 
-def problem_six(request):
+def problem_six(request): #Solved? by both of us
     student_with_low_gpa = Student.objects.filter(gpa__lt=3.0)
     # Find all students with a GPA less than 3.0 who are getting an A in Programming class.
     # Order by GPA.
-
+    data_visualization = [item for item in student_with_low_gpa]
     context = {
         'student_courses': student_with_low_gpa
     }
